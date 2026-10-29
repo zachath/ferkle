@@ -4,9 +4,10 @@ pub trait Dice {
     fn roll(&self) -> u32;
 }
 
-pub struct SixSidedDie;
+// https://kingdom-come-deliverance.fandom.com/wiki/Ordinary_die
+pub struct OrdinaryDie;
 
-impl Dice for SixSidedDie {
+impl Dice for OrdinaryDie {
     fn roll(&self) -> u32 {
         return rand::rng().random_range(1..=6);
     }
@@ -20,9 +21,9 @@ impl Dice for EvenDie {
         let mut rng = rand::rng();
         
         if rng.random_range(1..=10) <= 8 {
-            return [2, 4, 6][rng.random_range(0..3)]
+            [2, 4, 6][rng.random_range(0..3)]
         } else {
-            return [1, 3, 5][rng.random_range(0..3)]
+            [1, 3, 5][rng.random_range(0..3)]
         }
     }
 }
@@ -35,9 +36,9 @@ impl Dice for OddDie {
         let mut rng = rand::rng();
         
         if rng.random_range(1..=10) <= 8 {
-            return [1, 3, 5][rng.random_range(0..3)]
+            [1, 3, 5][rng.random_range(0..3)]
         } else {
-            return [2, 4, 6][rng.random_range(0..3)]
+            [2, 4, 6][rng.random_range(0..3)]
         }
     }
 }
