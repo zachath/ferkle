@@ -1,6 +1,6 @@
-use std::collections::HashSet;
 use crate::dice::{Dice, OrdinaryDie};
 use crate::selection::selection;
+use std::collections::HashSet;
 
 pub struct GameState {
     pub player_score: u32,
@@ -35,7 +35,11 @@ impl GameState {
                 return Err(format!("Duplicate position: {}.", pos));
             }
             if pos == 0 || pos > rolled.len() {
-                return Err(format!("Position {} is out of range (1–{}).", pos, rolled.len()));
+                return Err(format!(
+                    "Position {} is out of range (1–{}).",
+                    pos,
+                    rolled.len()
+                ));
             }
         }
         let faces: Vec<u32> = positions.iter().map(|&p| rolled[p - 1]).collect();
@@ -142,7 +146,10 @@ mod tests {
 
     #[test]
     fn select_hot_dice_reset() {
-        let mut s = GameState { dice_remaining: 3, ..GameState::new() };
+        let mut s = GameState {
+            dice_remaining: 3,
+            ..GameState::new()
+        };
         let rolled = vec![1, 1, 1];
         s.select_positions(&rolled, &[1, 2, 3]).unwrap();
         assert_eq!(s.dice_remaining, 6);

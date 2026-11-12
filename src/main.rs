@@ -1,15 +1,17 @@
-mod dice;
-mod selection;
-mod game;
 mod ai;
+mod dice;
+mod game;
+mod selection;
 
+use ai::{AiTurnResult, ai_take_turn};
 use game::GameState;
-use ai::{ai_take_turn, AiTurnResult};
 use std::io::{self, Write};
 
 fn read_line() -> String {
     let mut line = String::new();
-    io::stdin().read_line(&mut line).expect("Failed to read line");
+    io::stdin()
+        .read_line(&mut line)
+        .expect("Failed to read line");
     line
 }
 
@@ -21,7 +23,10 @@ fn display_roll(rolled: &[u32]) {
 }
 
 fn display_scores(state: &GameState) {
-    println!("You: {}  |  AI: {}  |  Turn: {}", state.player_score, state.ai_score, state.turn_score);
+    println!(
+        "You: {}  |  AI: {}  |  Turn: {}",
+        state.player_score, state.ai_score, state.turn_score
+    );
 }
 
 fn read_positions(n_dice: usize) -> Vec<usize> {
@@ -29,7 +34,7 @@ fn read_positions(n_dice: usize) -> Vec<usize> {
         print!("Select positions: ");
         io::stdout().flush().unwrap();
         let line = read_line();
-        let parts: Vec<&str> = line.trim().split_whitespace().collect();
+        let parts: Vec<&str> = line.split_whitespace().collect();
         if parts.is_empty() {
             println!("Error: enter at least one position.");
             continue;
@@ -114,14 +119,20 @@ fn main() {
     loop {
         println!("--- Your turn ---");
         if player_take_turn(&mut state) {
-            println!("You win! Final scores — You: {}, AI: {}.", state.player_score, state.ai_score);
+            println!(
+                "You win! Final scores — You: {}, AI: {}.",
+                state.player_score, state.ai_score
+            );
             break;
         }
 
         println!("\n--- AI's turn ---");
         match ai_take_turn(&mut state) {
             AiTurnResult::Banked(_) if state.ai_score >= 2000 => {
-                println!("AI wins. Final scores — You: {}, AI: {}.", state.player_score, state.ai_score);
+                println!(
+                    "AI wins. Final scores — You: {}, AI: {}.",
+                    state.player_score, state.ai_score
+                );
                 break;
             }
             _ => {}
