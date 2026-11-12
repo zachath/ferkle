@@ -46,7 +46,8 @@ fn best_score(counts: [u32; 7]) -> Option<u32> {
 
     // Straights: (lowest face, highest face, points).
     for (low, high, points) in [(1, 6, 1500), (1, 5, 500), (2, 6, 750)] {
-        if (low..=high).all(|f| counts[f] > 0) { // Is every face in the straight present at least once?
+        if (low..=high).all(|f| counts[f] > 0) {
+            // Is every face in the straight present at least once?
             let mut remaining = counts; // Copy counts (arrays of `Copy` types are copied, not moved).
             (low..=high).for_each(|f| remaining[f] -= 1); // Remove one die of each face in the straight.
             try_combo(remaining, points); // Score the straight plus whatever dice remain.
@@ -65,8 +66,10 @@ fn best_score(counts: [u32; 7]) -> Option<u32> {
     }
 
     // Single 1s and 5s.
-    for (face, points) in [(1, 100), (5, 50)] { // Iterate over an array of (face, points) tuples.
-        if counts[face] > 0 { // Is face present in count?
+    for (face, points) in [(1, 100), (5, 50)] {
+        // Iterate over an array of (face, points) tuples.
+        if counts[face] > 0 {
+            // Is face present in count?
             let mut remaining = counts; // Copy counts.
             remaining[face] -= 1; // Remove one die of this face.
             try_combo(remaining, points); // Score the single die plus whatever dice remain.
